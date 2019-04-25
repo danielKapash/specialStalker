@@ -2,20 +2,26 @@ package daniel.kapash.specialstalker;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST = 17;
+    private static final String PHONE_NUMBER_KEY_SP = "PHONE NUMBER KEY";
+    private static final String SMS_PREFIX_KEY_SP = "SMS PREFIX KEY";
 
     private AlertDialog permissionsExplanationDialog;
     private AlertDialog exitDialog;
@@ -90,6 +96,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(PHONE_NUMBER_KEY_SP, phoneNumberEditText.getText().toString());
+                editor.putString(SMS_PREFIX_KEY_SP, smsPrefixEditText.getText().toString());
+                editor.apply();
             }
         });
 
