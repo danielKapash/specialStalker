@@ -3,10 +3,15 @@ package daniel.kapash.specialstalker;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,11 +20,78 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog permissionsExplanationDialog;
     private AlertDialog exitDialog;
 
+    private EditText phoneNumberEditText;
+    private EditText smsPrefixEditText;
+    private Button saveButton;
+    private Boolean isPhoneNumberLegal = false;
+    private Boolean isPrefixLegal = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        phoneNumberEditText = findViewById(R.id.editTextPhoneNumber);
+        smsPrefixEditText = findViewById(R.id.editTextPrefix);
+        saveButton = findViewById(R.id.saveButton);
+
+        phoneNumberEditText.setBackgroundColor(Color.RED);
+        smsPrefixEditText.setBackgroundColor(Color.RED);
+        saveButton.setEnabled(false);
+
+        phoneNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= 9) {
+                    phoneNumberEditText.setBackgroundColor(Color.GREEN);
+                    isPhoneNumberLegal = true;
+                    if (isPrefixLegal)
+                        saveButton.setEnabled(true);
+                } else {
+                    phoneNumberEditText.setBackgroundColor(Color.RED);
+                    isPhoneNumberLegal = false;
+                    saveButton.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        smsPrefixEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= 1) {
+                    smsPrefixEditText.setBackgroundColor(Color.GREEN);
+                    isPrefixLegal = true;
+                    if (isPhoneNumberLegal)
+                        saveButton.setEnabled(true);
+                } else {
+                    smsPrefixEditText.setBackgroundColor(Color.RED);
+                    isPrefixLegal = false;
+                    saveButton.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("The app can't work without all the requested permissions");
@@ -76,5 +148,5 @@ public class MainActivity extends AppCompatActivity {
                 exitDialog.show();
         }
     }
-    
+
 }
