@@ -20,8 +20,8 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST = 17;
-    private static final String PHONE_NUMBER_KEY_SP = "PHONE NUMBER KEY";
-    private static final String SMS_PREFIX_KEY_SP = "SMS PREFIX KEY";
+    public static final String PHONE_NUMBER_KEY_SP = "PHONE NUMBER KEY";
+    public static final String SMS_PREFIX_KEY_SP = "SMS PREFIX KEY";
 
     private AlertDialog permissionsExplanationDialog;
     private AlertDialog exitDialog;
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString(PHONE_NUMBER_KEY_SP, phoneNumberEditText.getText().toString());
                 editor.putString(SMS_PREFIX_KEY_SP, smsPrefixEditText.getText().toString());
                 editor.apply();
+                finish();
             }
         });
 
