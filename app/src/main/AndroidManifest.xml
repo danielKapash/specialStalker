@@ -13,12 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".NotifyMessageReceivedService"
+            android:exported="false"></service>
+        <service
+            android:name=".NotifyMessageSentSuccessfullyService"
+            android:exported="false" />
+
         <receiver
             android:name=".OutGoingCallReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
 
